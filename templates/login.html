@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMIS — Tizimga kirish</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="EduMIS">
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/static/icons/icon-192.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: white;
+            width: 100%;
+            max-width: 360px;
+            padding: 30px 24px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .logo-area {
+            margin-bottom: 25px;
+        }
+
+        .logo-area i {
+            font-size: 3rem;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .logo-area h3 {
+            font-size: 1.5rem;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .logo-area p {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: #475569;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px 14px 40px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            bottom: 15px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            color: #ef4444;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            border: 1px solid #fee2e2;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            border: 1px solid #dcfce7;
+            font-weight: 500;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+            transition: all 0.2s;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo-area">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>{{ t('app_name') }}</h3>
+            <p>{{ t('login_subtitle') }}</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert-{{ 'success' if category == 'success' else 'error' }}">
+                  <i class="fa-solid {{ 'fa-circle-check' if category == 'success' else 'fa-triangle-exclamation' }}"></i> {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/login" method="POST">
+            <div class="input-group">
+                <label>{{ t('login_username') }}</label>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="username" required placeholder="admin" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label>{{ t('login_password') }}</label>
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn-submit">{{ t('login_button') }}</button>
+        </form>
+    </div>
+
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+}
+</script>
+</body>
+</html>

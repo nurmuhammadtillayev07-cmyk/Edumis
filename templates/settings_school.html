@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    <a href="/settings" style="color: #64748b; font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 12px;">
+        <i class="fa-solid fa-arrow-left"></i> {{ t('settings_title') }}
+    </a>
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 20px;">🏫 {{ t('sc_title') }}</h3>
+
+    <form action="/settings/school" method="POST" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 14px;">
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sc_name') }}</label>
+            <input type="text" name="school_name" value="{{ school.school_name }}" placeholder="{{ t('sc_name_placeholder') }}"
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sc_address') }}</label>
+            <input type="text" name="school_address" value="{{ school.school_address }}" placeholder="{{ t('sc_address_placeholder') }}"
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sc_academic_year') }}</label>
+            <input type="text" name="academic_year" value="{{ school.academic_year }}" placeholder="2026-2027"
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sc_grading_system') }}</label>
+            <select name="grading_system" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none; background: white;">
+                <option value="5" {{ 'selected' if school.grading_system == '5' else '' }}>{{ t('sc_grading_5') }}</option>
+                <option value="100" {{ 'selected' if school.grading_system == '100' else '' }}>{{ t('sc_grading_100') }}</option>
+            </select>
+            <p style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;">{{ t('sc_grading_note') }}</p>
+        </div>
+        <button type="submit" style="padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; margin-top: 4px;">
+            {{ t('save') }}
+        </button>
+    </form>
+
+    <div style="background: #f8fafc; border-radius: 12px; padding: 16px; margin-top: 16px; border: 1px dashed #cbd5e1;">
+        <p style="font-size: 0.78rem; color: #64748b; line-height: 1.5;">
+            <i class="fa-solid fa-circle-info"></i> {{ t('sc_other_note') }}
+        </p>
+    </div>
+</div>
+{% endblock %}

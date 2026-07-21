@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 20px;">⚙️ {{ t('settings_title') }}</h3>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="/settings/profile" class="settings-menu-item">
+            <span><i class="fa-solid fa-user" style="color: #2563eb; width: 22px;"></i> {{ t('settings_profile') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/settings/appearance" class="settings-menu-item">
+            <span><i class="fa-solid fa-globe" style="color: #16a34a; width: 22px;"></i> {{ t('settings_language_appearance') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/settings/security" class="settings-menu-item">
+            <span><i class="fa-solid fa-lock" style="color: #ef4444; width: 22px;"></i> {{ t('settings_security') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/settings/notifications" class="settings-menu-item">
+            <span><i class="fa-solid fa-bell" style="color: #f59e0b; width: 22px;"></i> {{ t('settings_notifications') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        {% if session.role == 'admin' %}
+        <a href="/settings/school" class="settings-menu-item">
+            <span><i class="fa-solid fa-school" style="color: #7c3aed; width: 22px;"></i> {{ t('settings_school') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/settings/data" class="settings-menu-item">
+            <span><i class="fa-solid fa-database" style="color: #0891b2; width: 22px;"></i> {{ t('settings_data') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        {% endif %}
+        <a href="/settings/about" class="settings-menu-item">
+            <span><i class="fa-solid fa-circle-info" style="color: #64748b; width: 22px;"></i> {{ t('settings_about') }}</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/logout" class="settings-menu-item" style="color: #ef4444;">
+            <span><i class="fa-solid fa-right-from-bracket" style="width: 22px;"></i> {{ t('settings_logout') }}</span>
+        </a>
+    </div>
+</div>
+
+<style>
+.settings-menu-item {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: #0f172a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+</style>
+{% endblock %}

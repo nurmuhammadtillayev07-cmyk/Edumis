@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/timetable.css">
+
+<div class="tt-page">
+  <div class="tt-toolbar">
+    <select id="tt-class-select"></select>
+    <select id="tt-teacher-select"></select>
+    <input id="tt-search" type="text" placeholder="Qidirish: fan, o'qituvchi, sinf, xona...">
+    <button id="tt-print-btn" class="tt-btn tt-btn-ghost"><i class="fa-solid fa-print"></i> Chop etish</button>
+    <button id="tt-export-excel" class="tt-btn tt-btn-ghost"><i class="fa-solid fa-file-excel"></i> Excel</button>
+    <button id="tt-export-pdf" class="tt-btn tt-btn-ghost"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+    <button id="tt-theme-toggle" class="tt-theme-toggle"><i class="fa-solid fa-circle-half-stroke"></i></button>
+  </div>
+
+  <div id="tt-search-results" style="margin-bottom:12px;"></div>
+
+  <div class="tt-grid-wrap">
+    <div class="tt-grid" id="tt-grid"></div>
+  </div>
+</div>
+
+<script src="/static/js/timetable-view.js"></script>
+{% endblock %}

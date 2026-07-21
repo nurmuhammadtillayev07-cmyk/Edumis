@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="padding: 0 16px; margin-top: -15px;">
+    
+    <a href="/students" style="display: inline-flex; align-items: center; gap: 8px; color: #2563eb; text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px;">
+        <i class="fa-solid fa-arrow-left"></i> Ro'yxatga qaytish
+    </a>
+
+    <div style="background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px;">
+            <div style="width: 55px; height: 55px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563eb; font-size: 1.5rem; font-weight: 700;">
+                {{ student.full_name[0] }}
+            </div>
+            <div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 4px;">{{ student.full_name }}</h3>
+                <span style="background: #f1f5f9; padding: 2px 8px; border-radius: 6px; color: #64748b; font-size: 0.8rem; font-weight: 600;">ID: {{ student.id }}</span>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem;">
+            <div>
+                <span style="color: #94a3b8; display: block;">Sinfi</span>
+                <strong style="color: #0f172a;">{{ student.class_id }}</strong>
+            </div>
+            <div>
+                <span style="color: #94a3b8; display: block;">Tug'ilgan sana</span>
+                <strong style="color: #0f172a;">{{ student.birth_date }}</strong>
+            </div>
+            <div>
+                <span style="color: #94a3b8; display: block;">Jinsi</span>
+                <strong style="color: #0f172a;">{{ student.gender }}</strong>
+            </div>
+            <div>
+                <span style="color: #94a3b8; display: block;">JSHSHIR</span>
+                <strong style="color: #0f172a; font-family: monospace;">{{ student.jshshir }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: white; border-radius: 20px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+        <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Choraklik va Yakuniy Baholar</h4>
+        
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #f1f5f9; color: #64748b;">
+                        <th style="text-align: left; padding: 8px 4px;">Fan nomi</th>
+                        <th style="padding: 8px 4px;">I</th>
+                        <th style="padding: 8px 4px;">II</th>
+                        <th style="padding: 8px 4px;">III</th>
+                        <th style="padding: 8px 4px;">IV</th>
+                        <th style="padding: 8px 4px; color: #2563eb; font-weight: 700;">Yak.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for grade in student.grades %}
+                    <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+                        <td style="text-align: left; padding: 12px 4px; font-weight: 500;">{{ grade.subject }}</td>
+                        <td style="padding: 12px 4px;">{{ grade.q1 }}</td>
+                        <td style="padding: 12px 4px;">{{ grade.q2 }}</td>
+                        <td style="padding: 12px 4px;">{{ grade.q3 }}</td>
+                        <td style="padding: 12px 4px;">{{ grade.q4 }}</td>
+                        <td style="padding: 12px 4px; color: #2563eb; font-weight: 700; background: #eff6ff; border-radius: 6px;">{{ grade.final }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    <a href="/settings" style="color: #64748b; font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 12px;">
+        <i class="fa-solid fa-arrow-left"></i> {{ t('settings_title') }}
+    </a>
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 20px;">🔐 {{ t('ss_title') }}</h3>
+
+    <form action="/settings/security" method="POST" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 20px;">
+        <label style="font-size: 0.85rem; font-weight: 600; color: #0f172a; display: block; margin-bottom: 10px;">{{ t('ss_change_password') }}</label>
+        <input type="password" name="new_password" minlength="6" required placeholder="{{ t('ss_new_password_placeholder') }}"
+               style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none; margin-bottom: 12px;">
+        <button type="submit" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">
+            {{ t('ss_update_password') }}
+        </button>
+    </form>
+
+    <div style="background: #f8fafc; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px dashed #cbd5e1;">
+        <p style="font-size: 0.8rem; color: #64748b;">
+            <i class="fa-solid fa-shield-halved"></i> {{ t('ss_2fa_note') }}
+        </p>
+    </div>
+
+    <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e3a8a; margin-bottom: 12px;">{{ t('ss_history_title') }}</h4>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+        {% for h in history %}
+        <div style="background: white; border-radius: 10px; padding: 12px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <p style="font-size: 0.82rem; font-weight: 600; color: #0f172a;">{{ h.timestamp }}</p>
+                <p style="font-size: 0.72rem; color: #94a3b8;">IP: {{ h.ip_address or t('ss_unknown_ip') }}</p>
+            </div>
+            <i class="fa-solid fa-mobile-screen" style="color: #cbd5e1;"></i>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 20px; font-size: 0.85rem;">{{ t('ss_history_empty') }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

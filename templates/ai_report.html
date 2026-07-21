@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a;">{{ t('ai_report_title') }}</h3>
+        <span style="background: {{ '#f0fdf4' if api_configured else '#fef2f2' }}; color: {{ '#16a34a' if api_configured else '#ef4444' }}; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;">
+            {{ t('ai_report_connected') if api_configured else t('ai_report_not_connected') }}
+        </span>
+    </div>
+
+    {% if not api_configured %}
+    <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 20px; border-top: 4px solid #f59e0b;">
+        <h4 style="font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">
+            <i class="fa-solid fa-key" style="color: #f59e0b;"></i> {{ t('ai_report_key_needed_title') }}
+        </h4>
+        <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 14px; line-height: 1.5;">
+            {{ t('ai_report_key_needed_desc') }}
+            <a href="https://console.anthropic.com" target="_blank" style="color: #2563eb;">console.anthropic.com</a>
+        </p>
+        <form action="/ai-hisobot/api-key" method="POST" style="display: flex; gap: 8px;">
+            <input type="password" name="api_key" placeholder="sk-ant-..." required
+                   style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+            <button type="submit" style="padding: 12px 16px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem;">
+                {{ t('ai_report_save_key') }}
+            </button>
+        </form>
+    </div>
+    {% else %}
+    <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 20px; border-top: 4px solid #2563eb;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 0.78rem; color: #64748b;">{{ t('ai_report_current_key') }}: {{ masked_key }}</span>
+        </div>
+        <form action="/ai-hisobot/generate" method="POST">
+            <button type="submit" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> {{ t('ai_report_generate') }}
+            </button>
+        </form>
+        <details style="margin-top: 12px;">
+            <summary style="font-size: 0.75rem; color: #94a3b8; cursor: pointer;">{{ t('ai_report_change_key') }}</summary>
+            <form action="/ai-hisobot/api-key" method="POST" style="display: flex; gap: 8px; margin-top: 10px;">
+                <input type="password" name="api_key" placeholder="Yangi API kalit" required
+                       style="flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.8rem; outline: none;">
+                <button type="submit" style="padding: 10px 14px; background: #f1f5f9; color: #0f172a; border: none; border-radius: 8px; font-size: 0.8rem;">
+                    {{ t('ai_report_update') }}
+                </button>
+            </form>
+        </details>
+    </div>
+    {% endif %}
+
+    <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e3a8a; margin-bottom: 12px;">{{ t('ai_report_history_title') }}</h4>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for r in reports %}
+        <div style="background: white; border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">
+                    <i class="fa-solid fa-clock"></i> {{ r.created_at }}
+                </span>
+                <form action="/ai-hisobot/delete/{{ r.id }}" method="POST" style="margin: 0;"
+                      onsubmit="return confirm({{ t('ai_report_confirm_delete')|tojson }});">
+                    <button type="submit" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.8rem;">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+            <p style="font-size: 0.85rem; color: #334155; line-height: 1.6; white-space: pre-wrap;">{{ r.content }}</p>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 30px; font-size: 0.85rem;">
+            {{ t('ai_report_empty') }}
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

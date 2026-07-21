@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 16px; margin-top: 15px;">
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 16px;">Sinf xonalari tarkibi</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for room in rooms %}
+        <div style="background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #2563eb;">
+            <h4 style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">Xona № {{ room.room_no }}</h4>
+            <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Turi: {{ room.type }} | Sig'imi: {{ room.capacity }} o'rin</p>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 30px; font-size: 0.85rem;">Hozircha sinf xonalari kiritilmagan.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+
+    <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 4px;">
+            Xush kelibsiz, {{ session.full_name }}
+        </h3>
+        <p style="font-size: 0.8rem; color: #64748b;">Tizim umumiy ko'rsatkichlari</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+        <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border-top: 4px solid #2563eb;">
+            <i class="fa-solid fa-user-group" style="color: #2563eb; font-size: 1.2rem;"></i>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 8px;">{{ stats.students }}</h2>
+            <p style="font-size: 0.75rem; color: #64748b;">O'quvchilar</p>
+        </div>
+        <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border-top: 4px solid #16a34a;">
+            <i class="fa-solid fa-chalkboard-user" style="color: #16a34a; font-size: 1.2rem;"></i>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 8px;">{{ stats.teachers }}</h2>
+            <p style="font-size: 0.75rem; color: #64748b;">O'qituvchilar</p>
+        </div>
+        <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border-top: 4px solid #f59e0b;">
+            <i class="fa-solid fa-school" style="color: #f59e0b; font-size: 1.2rem;"></i>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 8px;">{{ stats.classes }}</h2>
+            <p style="font-size: 0.75rem; color: #64748b;">Sinflar</p>
+        </div>
+        <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border-top: 4px solid #ef4444;">
+            <i class="fa-solid fa-chart-line" style="color: #ef4444; font-size: 1.2rem;"></i>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 8px;">{{ stats.attendance_rate }}%</h2>
+            <p style="font-size: 0.75rem; color: #64748b;">Davomat foizi</p>
+        </div>
+    </div>
+
+    <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 16px;">
+        <h4 style="font-size: 0.9rem; font-weight: 700; color: #1e3a8a; margin-bottom: 12px;">
+            <i class="fa-solid fa-chart-line" style="margin-right: 6px;"></i>Davomat trendi (oxirgi 14 kun)
+        </h4>
+        {% if chart_data.trend_labels %}
+        <canvas id="trendChart" height="160"></canvas>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 20px; font-size: 0.8rem;">Hozircha davomat ma'lumotlari yo'q.</p>
+        {% endif %}
+    </div>
+
+    <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 24px;">
+        <h4 style="font-size: 0.9rem; font-weight: 700; color: #1e3a8a; margin-bottom: 12px;">
+            <i class="fa-solid fa-chart-simple" style="margin-right: 6px;"></i>Sinflar bo'yicha o'quvchilar soni
+        </h4>
+        {% if chart_data.class_labels %}
+        <canvas id="classChart" height="160"></canvas>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 20px; font-size: 0.8rem;">Hozircha sinflarga o'quvchi biriktirilmagan.</p>
+        {% endif %}
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="/students" style="background: white; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <span style="color: #0f172a; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-user-group" style="color:#2563eb; margin-right: 8px;"></i>O'quvchilar ro'yxati</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/attendance" style="background: white; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <span style="color: #0f172a; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-calendar-check" style="color:#16a34a; margin-right: 8px;"></i>Davomatni belgilash</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+        <a href="/grades" style="background: white; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <span style="color: #0f172a; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-marker" style="color:#f59e0b; margin-right: 8px;"></i>Baholarni ko'rish</span>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 0.8rem;"></i>
+        </a>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+{% if chart_data.trend_labels %}
+new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: {
+        labels: {{ chart_data.trend_labels|tojson }},
+        datasets: [{
+            label: 'Davomat foizi (%)',
+            data: {{ chart_data.trend_values|tojson }},
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 3
+        }]
+    },
+    options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, max: 100 } }
+    }
+});
+{% endif %}
+
+{% if chart_data.class_labels %}
+new Chart(document.getElementById('classChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ chart_data.class_labels|tojson }},
+        datasets: [{
+            label: "O'quvchilar soni",
+            data: {{ chart_data.class_values|tojson }},
+            backgroundColor: '#16a34a',
+            borderRadius: 6
+        }]
+    },
+    options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+    }
+});
+{% endif %}
+</script>
+{% endblock %}

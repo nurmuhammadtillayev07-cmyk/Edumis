@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="{{ session.theme or 'light' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMIS - Mobil Maktab Tizimi</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="EduMIS">
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/static/icons/icon-192.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-light: #f8fafc;
+            --primary-blue: #2563eb;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: white;
+            --border-color: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-light: #0f172a;
+            --text-dark: #f1f5f9;
+            --text-muted: #94a3b8;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+        }
+
+        [data-theme="dark"] .mobile-header,
+        [data-theme="dark"] .mobile-nav {
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding-bottom: 80px; /* Pastki menyu yopib qo'ymasligi uchun joy */
+        }
+
+        /* Yuqori Mobil Shapka (Header) */
+        .mobile-header {
+            background-color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .header-icons a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-left: 14px;
+            text-decoration: none;
+        }
+
+        /* Pastki Asosiy Mobil Menyu (Navigation) */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            gap: 4px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-item i {
+            font-size: 1.25rem;
+        }
+
+        /* Faol (bosilgan) tugma holati */
+        .nav-item:hover, .nav-item.active {
+            color: var(--primary-blue);
+        }
+
+        /* Vidjetlar yoki qo'shimcha menyu paneli (Kengaytirilgan funksiyalar uchun) */
+        .extra-menu {
+            background: white;
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 16px;
+        }
+
+        .extra-menu::-webkit-scrollbar {
+            display: none; /* Skrolni yashirish */
+        }
+
+        .extra-item {
+            background: #eff6ff;
+            color: var(--primary-blue);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .flash-wrap {
+            padding: 0 16px;
+            margin-top: 12px;
+        }
+
+        .flash-msg {
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flash-error {
+            background-color: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+        }
+
+        .flash-success {
+            background-color: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #dcfce7;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="mobile-header">
+        <a href="/dashboard" class="brand-title"><i class="fa-solid fa-graduation-cap"></i> EduMIS</a>
+        <div class="header-icons">
+            <a href="/notifications"><i class="fa-solid fa-bell"></i></a>
+            <a href="/settings"><i class="fa-solid fa-gear"></i></a>
+            <a href="/logout" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+    </header>
+
+    <div class="extra-menu">
+        {% if session.role == 'admin' %}
+        <a href="/dashboard" class="extra-item"><i class="fa-solid fa-chart-pie"></i> {{ t('nav_panel') }}</a>
+        <a href="/students" class="extra-item"><i class="fa-solid fa-user-group"></i> {{ t('nav_students') }}</a>
+        <a href="/attendance" class="extra-item"><i class="fa-solid fa-calendar-check"></i> {{ t('nav_attendance') }}</a>
+        <a href="/timetable" class="extra-item"><i class="fa-solid fa-calendar-days"></i> {{ t('nav_schedule') }}</a>
+        <a href="/teachers" class="extra-item"><i class="fa-solid fa-chalkboard-user"></i> {{ t('nav_teachers') }}</a>
+        <a href="/classrooms" class="extra-item"><i class="fa-solid fa-school"></i> {{ t('nav_classrooms') }}</a>
+        <a href="/grades" class="extra-item"><i class="fa-solid fa-marker"></i> {{ t('nav_grades') }}</a>
+        <a href="/backup" class="extra-item"><i class="fa-solid fa-cloud-arrow-up"></i> {{ t('nav_backup') }}</a>
+        <a href="/ai-hisobot" class="extra-item"><i class="fa-solid fa-wand-magic-sparkles"></i> {{ t('nav_ai_report') }}</a>
+        {% else %}
+        <a href="/mening-kabinetim" class="extra-item"><i class="fa-solid fa-id-card"></i> {{ t('nav_my_profile') }}</a>
+        <a href="/notifications" class="extra-item"><i class="fa-solid fa-bell"></i> {{ t('nav_notifications') }}</a>
+        {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-wrap">
+        {% for category, message in messages %}
+          <div class="flash-msg {{ 'flash-success' if category == 'success' else 'flash-error' }}">
+              <i class="fa-solid {{ 'fa-circle-check' if category == 'success' else 'fa-triangle-exclamation' }}"></i>
+              <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    <main class="content-wrapper">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <nav class="mobile-nav">
+        {% if session.role == 'admin' %}
+        <a href="/dashboard" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span>{{ t('nav_home') }}</span>
+        </a>
+        <a href="/students" class="nav-item">
+            <i class="fa-solid fa-users"></i>
+            <span>{{ t('nav_students') }}</span>
+        </a>
+        <a href="/attendance" class="nav-item">
+            <i class="fa-solid fa-clipboard-user"></i>
+            <span>{{ t('nav_attendance') }}</span>
+        </a>
+        <a href="/timetable" class="nav-item">
+            <i class="fa-solid fa-clock"></i>
+            <span>{{ t('nav_schedule') }}</span>
+        </a>
+        <a href="/settings" class="nav-item">
+            <i class="fa-solid fa-sliders"></i>
+            <span>{{ t('nav_settings') }}</span>
+        </a>
+        {% else %}
+        <a href="/mening-kabinetim" class="nav-item">
+            <i class="fa-solid fa-id-card"></i>
+            <span>{{ t('nav_cabinet') }}</span>
+        </a>
+        <a href="/notifications" class="nav-item">
+            <i class="fa-solid fa-bell"></i>
+            <span>{{ t('nav_notifications') }}</span>
+        </a>
+        <a href="/settings" class="nav-item">
+            <i class="fa-solid fa-sliders"></i>
+            <span>{{ t('nav_settings') }}</span>
+        </a>
+        {% endif %}
+    </nav>
+
+<button id="pwaInstallBtn" onclick="installPWA()" style="display:none; position: fixed; bottom: 78px; right: 16px; z-index: 999; background:#2563eb; color:white; border:none; border-radius: 50px; padding: 12px 18px; font-weight:600; font-size:0.8rem; box-shadow: 0 4px 14px rgba(37,99,235,0.4); align-items:center; gap:8px;">
+    <i class="fa-solid fa-download"></i> Ilovani o'rnatish
+</button>
+
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('Service Worker roʻyxatga olinmadi:', err);
+        });
+    });
+}
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.style.display = 'flex';
+});
+
+function installPWA() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        document.getElementById('pwaInstallBtn').style.display = 'none';
+    });
+}
+
+window.addEventListener('appinstalled', () => {
+    const btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.style.display = 'none';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    <a href="/settings/about" style="color: #64748b; font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 12px;">
+        <i class="fa-solid fa-arrow-left"></i> {{ t('settings_about') }}
+    </a>
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 4px;">📘 Dars jadvali va o'qituvchilar qo'llanmasi</h3>
+    <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">EMIS tipidagi tizimlarda dars jadvali qanday tuziladi - to'liq qo'llanma</p>
+
+    <style>
+        .guide-section { background: white; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); overflow: hidden; }
+        .guide-section summary { padding: 16px; font-size: 0.9rem; font-weight: 700; color: #0f172a; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        .guide-section summary::-webkit-details-marker { display: none; }
+        .guide-section summary::after { content: "\f078"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #94a3b8; font-size: 0.75rem; }
+        .guide-section[open] summary::after { content: "\f077"; }
+        .guide-body { padding: 0 16px 16px 16px; font-size: 0.82rem; color: #334155; line-height: 1.6; }
+        .guide-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin: 10px 0; }
+        .guide-table th { background: #eff6ff; color: #1e3a8a; text-align: left; padding: 8px; border: 1px solid #e2e8f0; }
+        .guide-table td { padding: 8px; border: 1px solid #e2e8f0; vertical-align: top; }
+        .guide-table td.center { text-align: center; }
+        .guide-step { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
+        .guide-step-num { background: #2563eb; color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+    </style>
+
+    <!-- 1. Jadval yaratish bosqichlari -->
+    <details class="guide-section" open>
+        <summary>1. Dars jadvali qanday yaratiladi?</summary>
+        <div class="guide-body">
+            <table class="guide-table">
+                <tr><th>Bosqich</th><th>Amal</th><th>Kim bajaradi</th></tr>
+                <tr><td>1</td><td>O'quv yili va choraklarni faollashtirish</td><td>EMIS administratori</td></tr>
+                <tr><td>2</td><td>Sinf, fan, xona, smenalarni kiritish</td><td>Operator / Administrator</td></tr>
+                <tr><td>3</td><td>O'qituvchilar ro'yxatini qo'shish</td><td>Operator / Kadrlar bo'limi</td></tr>
+                <tr><td>4</td><td>Har bir o'qituvchiga yuklama biriktirish</td><td>Direktor o'rinbosari</td></tr>
+                <tr><td>5</td><td>Haftalik dars jadvalini tuzish</td><td>Direktor o'rinbosari / Operator</td></tr>
+                <tr><td>6</td><td>Ziddiyatlarni (kolliziya) tekshirish</td><td>Tizim avtomatik + Operator</td></tr>
+                <tr><td>7</td><td>Jadvalni tasdiqlash</td><td>Maktab direktori</td></tr>
+                <tr><td>8</td><td>Jadvalni e'lon qilish</td><td>EMIS administratori</td></tr>
+            </table>
+            <p><b>Muhim tamoyil:</b> Avval spravochnik (sinf, fan, xona) ma'lumotlari to'liq bo'lishi, keyin jadval kiritilishi kerak.</p>
+        </div>
+    </details>
+
+    <!-- 2. Oldindan tayyor bolishi kerak -->
+    <details class="guide-section">
+        <summary>2. Oldindan tayyor bo'lishi kerak bo'lgan ma'lumotlar</summary>
+        <div class="guide-body">
+            <table class="guide-table">
+                <tr><th>Ma'lumot</th><th>Nima uchun</th><th>Misol</th></tr>
+                <tr><td>Sinflar</td><td>Jadval bitta sinfga bog'lanadi</td><td>5-A, 9-V</td></tr>
+                <tr><td>Fanlar</td><td>Standart nomlar bo'lmasa chalkashlik chiqadi</td><td>Matematika, Ona tili</td></tr>
+                <tr><td>Xonalar</td><td>Ikki dars bir xonada to'qnashmasligi uchun</td><td>204-xona, Sport zali</td></tr>
+                <tr><td>Smenalar</td><td>Vaqt to'qnashuvining oldini olish</td><td>1-smena, 2-smena</td></tr>
+                <tr><td>O'qituvchilar</td><td>Kimga qaysi dars biriktirilishini bilish</td><td>—</td></tr>
+                <tr><td>O'quv yili/chorak</td><td>Jadval faqat faol davr uchun ishlaydi</td><td>2026-2027, I-chorak</td></tr>
+                <tr><td>Haftalik soat me'yori</td><td>Har fan uchun soat sonini bilish</td><td>Matematika — 5 soat/hafta</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <!-- 3-4. Oqituvchi qoshish -->
+    <details class="guide-section">
+        <summary>3-4. O'qituvchi qanday qo'shiladi va nima kerak?</summary>
+        <div class="guide-body">
+            <div class="guide-step"><div class="guide-step-num">1</div><div>Kadrlar bo'limi/operator "O'qituvchilar" bo'limiga kiradi</div></div>
+            <div class="guide-step"><div class="guide-step-num">2</div><div>"Yangi o'qituvchi qo'shish" tugmasi bosiladi</div></div>
+            <div class="guide-step"><div class="guide-step-num">3</div><div>Shaxsiy va professional ma'lumotlar to'ldiriladi</div></div>
+            <div class="guide-step"><div class="guide-step-num">4</div><div>Login/parol biriktiriladi (odatda JSHSHIR)</div></div>
+            <div class="guide-step"><div class="guide-step-num">5</div><div>Fan(lar) va sinf(lar) biriktiriladi</div></div>
+            <div class="guide-step"><div class="guide-step-num">6</div><div>Saqlanadi, o'qituvchi faol ro'yxatga tushadi</div></div>
+
+            <p style="margin-top: 14px;"><b>Talab qilinadigan ma'lumotlar:</b></p>
+            <table class="guide-table">
+                <tr><th>Maydon</th><th>Majburiymi</th></tr>
+                <tr><td>F.I.Sh, JSHSHIR, tug'ilgan sana</td><td class="center">✅</td></tr>
+                <tr><td>Fan(lar), lavozim, haftalik yuklama</td><td class="center">✅</td></tr>
+                <tr><td>Malaka toifasi, ish staji</td><td class="center">⚠️ tavsiya</td></tr>
+                <tr><td>Telefon, diplom ma'lumoti</td><td class="center">⚠️ tavsiya</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <!-- 5. Darslarni biriktirish -->
+    <details class="guide-section">
+        <summary>5. Darslarni o'qituvchilarga biriktirish tartibi</summary>
+        <div class="guide-body">
+            <div class="guide-step"><div class="guide-step-num">1</div><div>O'quv reja asosida har fan uchun haftalik soat aniqlanadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">2</div><div>Zavuch har bir sinf-fan juftligiga o'qituvchi belgilaydi</div></div>
+            <div class="guide-step"><div class="guide-step-num">3</div><div>Tizim avtomatik tekshiradi: vaqt to'qnashuvi va yuklama me'yori (18-24 soat)</div></div>
+            <div class="guide-step"><div class="guide-step-num">4</div><div>Ziddiyat bo'lsa, xato xabari va qizil belgi chiqadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">5</div><div>Barcha juftliklar to'ldirilgach, yuklama jadvali saqlanadi</div></div>
+        </div>
+    </details>
+
+    <!-- 6. Rollar jadvali -->
+    <details class="guide-section">
+        <summary>6. Rollar va vakolatlar</summary>
+        <div class="guide-body">
+            <table class="guide-table">
+                <tr><th>Vakolat</th><th>Direktor</th><th>Zavuch</th><th>EMIS admin</th><th>Operator</th></tr>
+                <tr><td>Sinf/fan/xona qo'shish</td><td class="center">❌</td><td class="center">⚠️</td><td class="center">✅</td><td class="center">✅</td></tr>
+                <tr><td>O'qituvchi qo'shish</td><td class="center">❌</td><td class="center">⚠️</td><td class="center">✅</td><td class="center">✅</td></tr>
+                <tr><td>Yuklama taqsimlash</td><td class="center">⚠️</td><td class="center">✅</td><td class="center">✅</td><td class="center">❌</td></tr>
+                <tr><td>Jadval tuzish/tahrirlash</td><td class="center">❌</td><td class="center">✅</td><td class="center">✅</td><td class="center">✅</td></tr>
+                <tr><td>Jadvalni <b>tasdiqlash</b></td><td class="center">✅</td><td class="center">❌</td><td class="center">⚠️</td><td class="center">❌</td></tr>
+                <tr><td>Jadvalni e'lon qilish</td><td class="center">❌</td><td class="center">❌</td><td class="center">✅</td><td class="center">⚠️</td></tr>
+                <tr><td>Foydalanuvchi huquqlari</td><td class="center">❌</td><td class="center">❌</td><td class="center">✅</td><td class="center">❌</td></tr>
+            </table>
+            <p style="font-size: 0.72rem; color: #94a3b8;">✅ to'liq huquq | ⚠️ cheklangan huquq | ❌ huquq yo'q</p>
+        </div>
+    </details>
+
+    <!-- 7. Xatolar -->
+    <details class="guide-section">
+        <summary>7. Eng ko'p uchraydigan xatolar</summary>
+        <div class="guide-body">
+            <table class="guide-table">
+                <tr><th>Xato</th><th>Sababi</th><th>Yechimi</th></tr>
+                <tr><td>O'qituvchi vaqt to'qnashuvi</td><td>Ikki sinfda bir vaqtda dars</td><td>Birini boshqa vaqtga ko'chirish</td></tr>
+                <tr><td>Xona band</td><td>Ikki sinf bir xonada</td><td>Bo'sh xona tanlash</td></tr>
+                <tr><td>Soat me'yoridan chetlanish</td><td>Reja bilan mos kelmaslik</td><td>Rejani qayta tekshirish</td></tr>
+                <tr><td>Fan nomi ikki xil yozilgan</td><td>Standartlashtirilmagan</td><td>Fanlar ro'yxatini tozalash</td></tr>
+                <tr><td>Jadval saqlanmayapti</td><td>Majburiy maydon bo'sh</td><td>Barcha katakni to'ldirish</td></tr>
+                <tr><td>O'qituvchi jadvalni ko'rmayapti</td><td>Hali e'lon qilinmagan</td><td>Administrator faollashtirishi</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <!-- 8. Misol -->
+    <details class="guide-section">
+        <summary>8. Namunaviy misol: 7-A sinf jadvali</summary>
+        <div class="guide-body">
+            <div class="guide-step"><div class="guide-step-num">1</div><div>"Dars jadvali" → Sinf: <b>7-A</b> tanlanadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">2</div><div>Kun: <b>Dushanba</b> tanlanadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">3</div><div>1-dars katakchasi → Fan: <b>Matematika</b></div></div>
+            <div class="guide-step"><div class="guide-step-num">4</div><div>Tizim mos o'qituvchini (Karimov O.) taklif qiladi</div></div>
+            <div class="guide-step"><div class="guide-step-num">5</div><div>Xona: <b>204-xona</b> tanlanadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">6</div><div>Tizim to'qnashuvni tekshiradi - yo'q bo'lsa davom etadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">7</div><div>2-dars: Fan — Ona tili, o'qituvchi — Yusupova M.</div></div>
+            <div class="guide-step"><div class="guide-step-num">8</div><div>Barcha darslar to'ldirilgach, "Saqlash" bosiladi</div></div>
+            <div class="guide-step"><div class="guide-step-num">9</div><div>Qolgan kunlar xuddi shunday to'ldiriladi</div></div>
+            <div class="guide-step"><div class="guide-step-num">10</div><div>Zavuch ko'rib chiqib, "Tasdiqlashga yuborish" bosadi</div></div>
+            <div class="guide-step"><div class="guide-step-num">11</div><div>Direktor tasdiqlaydi → jadval rasman kuchga kiradi</div></div>
+        </div>
+    </details>
+
+    <div style="background: #eff6ff; border-radius: 12px; padding: 16px; margin-top: 10px;">
+        <p style="font-size: 0.8rem; color: #1e3a8a; line-height: 1.5;">
+            <b>Xulosa:</b> Dars jadvali — eng ko'p ma'lumotga bog'liq modul. Asosiy shart: avval sinf, fan, xona, o'qituvchi ma'lumotlari 100% to'g'ri bo'lishi, keyin jadval tuzilishi kerak.
+        </p>
+    </div>
+</div>
+{% endblock %}

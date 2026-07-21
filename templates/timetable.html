@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a;">Dars jadvali</h3>
+        <span style="background: #eff6ff; color: #2563eb; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">Bugun</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for lesson in lessons %}
+        <div style="background: white; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border-left: 4px solid #2563eb;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="font-size: 0.9rem; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 8px 12px; border-radius: 10px; text-align: center;">
+                    {{ lesson.lesson_time }}
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; font-weight: 600; color: #0f172a; margin-bottom: 2px;">{{ lesson.subject_name }}</h4>
+                    <span style="font-size: 0.75rem; color: #64748b;"><i class="fa-solid fa-location-dot"></i> {{ lesson.room_number }}</span>
+                </div>
+            </div>
+            <span style="background: #f1f5f9; padding: 4px 8px; border-radius: 6px; color: #475569; font-size: 0.75rem; font-weight: 600;">{{ lesson.class_id }}</span>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 20px; font-size: 0.85rem;">Hozircha dars jadvali kiritilmagan.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

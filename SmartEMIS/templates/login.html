@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartEMIS — Tizimga kirish</title>
+<style>
+  :root{ --navy-deep:#0a2647; --navy:#144272; --blue:#205295; --blue-bright:#2c74b3; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:linear-gradient(150deg,#ffffff 0%,#eef5fc 45%,#dcebf9 100%);
+  }
+  .login-card{
+    width:min(90vw,380px); padding:40px 32px; background:#fff;
+    border-radius:16px; box-shadow:0 20px 50px -12px rgba(10,38,71,0.18); text-align:center;
+  }
+  .login-card h2{ color:var(--navy-deep); font-size:1.3rem; margin-bottom:6px; }
+  .login-card p{ color:var(--blue); font-size:0.85rem; margin-bottom:24px; }
+  .login-card input{
+    width:100%; padding:12px 14px; margin-bottom:12px;
+    border:1.5px solid #dce8f7; border-radius:8px; font-size:0.9rem; outline:none;
+  }
+  .login-card input:focus{ border-color:var(--blue-bright); }
+  .login-card button{
+    width:100%; padding:12px; margin-top:6px; border:none; border-radius:8px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-bright));
+    color:#fff; font-weight:600; font-size:0.9rem; cursor:pointer; letter-spacing:0.3px;
+  }
+  .flash{ color:#c0392b; font-size:0.82rem; margin-bottom:14px; }
+</style>
+</head>
+<body>
+  <div class="login-card">
+    <h2>Tizimga kirish</h2>
+    <p>SmartEMIS shaxsiy kabinetingiz</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <input type="text" name="username" placeholder="Foydalanuvchi nomi" required>
+      <input type="password" name="password" placeholder="Parol" required>
+      <button type="submit">Kirish</button>
+    </form>
+  </div>
+</body>
+</html>

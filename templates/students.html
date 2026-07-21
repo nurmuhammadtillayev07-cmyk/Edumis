@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a;">O'quvchilar tarkibi</h3>
+        <span style="background: #eff6ff; color: #2563eb; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+            Jami: {{ students|length }} ta
+        </span>
+    </div>
+
+    <form action="/students" method="GET" style="display: flex; gap: 8px; margin-bottom: 24px;">
+        <div style="flex: 1; position: relative;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem;"></i>
+            <input type="text" name="q" value="{{ query }}" placeholder="F.I.Sh yoki JSHSHIR bo'yicha qidirish..."
+                   style="width: 100%; padding: 12px 12px 12px 36px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; outline: none;">
+        </div>
+        <select name="class_id" onchange="this.form.submit()"
+                style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; outline: none; background: white;">
+            <option value="">Barcha sinflar</option>
+            {% for c in all_classes %}
+            <option value="{{ c }}" {{ 'selected' if c == selected_class else '' }}>{{ c }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" style="padding: 12px 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.85rem;">
+            <i class="fa-solid fa-filter"></i>
+        </button>
+        {% if query or selected_class %}
+        <a href="/students" style="padding: 12px 14px; background: #f1f5f9; color: #64748b; border-radius: 10px; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center;">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+        {% endif %}
+    </form>
+
+    <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; border-top: 4px solid #2563eb;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #2563eb; margin-bottom: 16px;">
+            <i class="fa-solid fa-user-plus"></i> Yangi o'quvchi qo'shish
+        </h4>
+        
+        <form action="/student/add" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+            <input type="text" name="full_name" placeholder="F.I.Sh (Masalan: Aliyev Vali)" required 
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <input type="text" name="class_id" placeholder="Sinf (Masalan: 11-A)" required
+                       style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+                
+                <input type="date" name="birth_date" required
+                       style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <input type="number" name="jshshir" placeholder="JSHSHIR (14 talik ID)" required
+                       style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+                
+                <select name="gender" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none; background: white;">
+                    <option value="O'g'il bola">O'g'il bola</option>
+                    <option value="Qiz bola">Qiz bola</option>
+                </select>
+            </div>
+
+            <button type="submit" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s;">
+                Bazaga saqlash
+            </button>
+        </form>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+        {% for student in students %}
+        <div style="background: white; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #f1f5f9;">
+            
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 45px; height: 45px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563eb; font-weight: 700;">
+                    {{ student.full_name[0] if student.full_name else 'O' }}
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; font-weight: 600; color: #0f172a; margin-bottom: 2px;">
+                        {{ student.full_name }}
+                    </h4>
+                    <p style="font-size: 0.8rem; color: #64748b;">
+                        ID: <span style="color: #0f172a; font-weight: 500;">{{ student.id }}</span> &nbsp;|&nbsp; 
+                        Sinf: <span style="background: #eff6ff; padding: 2px 6px; border-radius: 4px; color: #2563eb; font-weight: 600;">{{ student.class_id }}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <form action="/student/delete/{{ student.id }}" method="POST" onsubmit="return confirm('Haqiqatan ham ushbu o\'quvchini o\'chirib tashlamoqchisiz?');" style="margin: 0;">
+                    <button type="submit" style="width: 32px; height: 32px; background: #fef2f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ef4444; border: none; cursor: pointer;">
+                        <i class="fa-solid fa-trash" style="font-size: 0.8rem;"></i>
+                    </button>
+                </form>
+
+                <a href="/student/{{ student.id }}" style="width: 32px; height: 32px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563eb; text-decoration: none;">
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem;"></i>
+                </a>
+            </div>
+
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 30px; font-size: 0.85rem;">
+            {% if query or selected_class %}Qidiruv bo'yicha hech narsa topilmadi.{% else %}Hozircha o'quvchilar kiritilmagan.{% endif %}
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

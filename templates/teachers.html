@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 16px; margin-top: 15px;">
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 16px;">O'qituvchilar tarkibi</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for teacher in teachers %}
+        <div style="background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h4 style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">{{ teacher.name }}</h4>
+                <p style="font-size: 0.8rem; color: #2563eb; font-weight: 500; margin-top: 2px;">Fani: {{ teacher.subject }}</p>
+            </div>
+            <a href="tel:{{ teacher.phone }}" style="color: #2563eb; font-size: 1.1rem;"><i class="fa-solid fa-phone"></i></a>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 30px; font-size: 0.85rem;">Hozircha o'qituvchilar kiritilmagan.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

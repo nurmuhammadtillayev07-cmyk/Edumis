@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    
+    <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 4px;">Kunlik Davomat</h3>
+        <p style="font-size: 0.8rem; color: #64748b;">Sana: Bugun</p>
+    </div>
+
+    <form action="/attendance" method="GET" style="margin-bottom: 16px;">
+        <select name="class_id" onchange="this.form.submit()"
+                style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; outline: none; background: white;">
+            <option value="">Barcha sinflar</option>
+            {% for c in all_classes %}
+            <option value="{{ c }}" {{ 'selected' if c == selected_class else '' }}>{{ c }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <form action="/attendance" method="POST">
+        <input type="hidden" name="class_id" value="{{ selected_class }}">
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+            {% for student in students %}
+            <div style="background: white; border-radius: 16px; padding: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                <div>
+                    <h4 style="font-size: 0.9rem; font-weight: 600; color: #0f172a; margin-bottom: 2px;">{{ student.full_name }}</h4>
+                    <span style="font-size: 0.75rem; color: #2563eb; font-weight: 600;">{{ student.class_id }}</span>
+                </div>
+                
+                <select name="status_{{ student.id }}" style="padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.8rem; font-weight: 600; outline: none; background: #f8fafc;">
+                    <option value="Keldi">🟢 Keldi</option>
+                    <option value="Kelmadi">🔴 Kelmadi</option>
+                </select>
+            </div>
+            {% else %}
+            <p style="text-align: center; color: #94a3b8; padding: 20px; font-size: 0.85rem;">
+                {% if selected_class %}Bu sinfda o'quvchi topilmadi.{% else %}Davomat olish uchun avval o'quvchilar ro'yxatidan o'quvchi qo'shing.{% endif %}
+            </p>
+            {% endfor %}
+        </div>
+
+        {% if students %}
+        <button type="submit" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+            Davomatni saqlash
+        </button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

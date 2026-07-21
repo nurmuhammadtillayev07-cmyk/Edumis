@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 16px; margin-top: 15px;">
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 16px;">Chorak va Yakuniy Baholar</h3>
+
+    <form action="/grades" method="GET" style="position: relative; margin-bottom: 20px;">
+        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem;"></i>
+        <input type="text" name="q" value="{{ query }}" onchange="this.form.submit()"
+               placeholder="O'quvchi yoki fan bo'yicha qidirish..."
+               style="width: 100%; padding: 12px 12px 12px 36px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; outline: none;">
+    </form>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for grade in grades %}
+        <div style="background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <h4 style="font-size: 0.9rem; font-weight: 600; color: #0f172a; margin-bottom: 8px;">{{ grade.name }} ({{ grade.subject }})</h4>
+            <div style="display: flex; gap: 10px; font-size: 0.8rem; text-align: center;">
+                <div style="background: #f1f5f9; padding: 6px; border-radius: 6px; flex: 1;">1-Ch: <b>{{ grade.q1 }}</b></div>
+                <div style="background: #f1f5f9; padding: 6px; border-radius: 6px; flex: 1;">2-Ch: <b>{{ grade.q2 }}</b></div>
+                <div style="background: #f1f5f9; padding: 6px; border-radius: 6px; flex: 1;">3-Ch: <b>{{ grade.q3 }}</b></div>
+                <div style="background: #f1f5f9; padding: 6px; border-radius: 6px; flex: 1;">4-Ch: <b>{{ grade.q4 }}</b></div>
+                <div style="background: #eff6ff; padding: 6px; border-radius: 6px; flex: 1; color: #2563eb;">Yakun: <b>{{ grade.final }}</b></div>
+            </div>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #94a3b8; padding: 30px; font-size: 0.85rem;">
+            {% if query %}Qidiruv bo'yicha hech narsa topilmadi.{% else %}Hozircha baholar kiritilmagan.{% endif %}
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

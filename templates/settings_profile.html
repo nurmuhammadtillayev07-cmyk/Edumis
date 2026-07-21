@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    <a href="/settings" style="color: #64748b; font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 12px;">
+        <i class="fa-solid fa-arrow-left"></i> {{ t('settings_title') }}
+    </a>
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 20px;">👤 {{ t('sp_title') }}</h3>
+
+    <form action="/settings/profile" method="POST" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 14px;">
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sp_full_name') }}</label>
+            <input type="text" name="full_name" value="{{ user.full_name }}" required
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sp_phone') }}</label>
+            <input type="tel" name="phone" value="{{ user.phone or '' }}" placeholder="+998 90 123 45 67"
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sp_email') }}</label>
+            <input type="email" name="email" value="{{ user.email or '' }}" placeholder="email@misol.uz"
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        {% if session.role != 'student' %}
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sp_position') }}</label>
+            <input type="text" name="position" value="{{ user.position or '' }}" placeholder="{{ t('sp_position_placeholder') }}"
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+        </div>
+        {% endif %}
+        <div>
+            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">{{ t('sp_login_label') }}</label>
+            <input type="text" value="{{ user.username }}" disabled
+                   style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.85rem; background: #f8fafc; color: #94a3b8;">
+        </div>
+        <button type="submit" style="padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; margin-top: 4px;">
+            {{ t('save') }}
+        </button>
+    </form>
+
+    <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 14px; text-align: center;">
+        {{ t('sp_avatar_note') }}
+    </p>
+</div>
+{% endblock %}

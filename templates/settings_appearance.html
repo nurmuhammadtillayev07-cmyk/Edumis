@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 0 16px; margin-top: 20px; padding-bottom: 60px;">
+    <a href="/settings" style="color: #64748b; font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 12px;">
+        <i class="fa-solid fa-arrow-left"></i> {{ t('settings_title') }}
+    </a>
+    <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 20px;">🌐 {{ t('sa_title') }}</h3>
+
+    <form action="/settings/appearance" method="POST" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);">
+
+        <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 8px;">{{ t('sa_language_label') }}</label>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+            <label style="display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;">
+                <input type="radio" name="language" value="uz" {{ 'checked' if current_language == 'uz' else '' }}>
+                <span style="font-size: 0.85rem;">🇺🇿 {{ t('sa_uz') }}</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;">
+                <input type="radio" name="language" value="ru" {{ 'checked' if current_language == 'ru' else '' }}>
+                <span style="font-size: 0.85rem;">🇷🇺 {{ t('sa_ru') }}</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;">
+                <input type="radio" name="language" value="en" {{ 'checked' if current_language == 'en' else '' }}>
+                <span style="font-size: 0.85rem;">🇬🇧 {{ t('sa_en') }}</span>
+            </label>
+        </div>
+
+        <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 8px;">{{ t('sa_appearance_label') }}</label>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <label style="flex: 1; text-align: center; padding: 16px; border: 2px solid {{ '#2563eb' if current_theme == 'light' else '#e2e8f0' }}; border-radius: 10px; cursor: pointer;">
+                <input type="radio" name="theme" value="light" {{ 'checked' if current_theme == 'light' else '' }} style="display: none;">
+                <i class="fa-solid fa-sun" style="font-size: 1.3rem; color: #f59e0b;"></i>
+                <p style="font-size: 0.8rem; margin-top: 6px; font-weight: 600;">{{ t('sa_light') }}</p>
+            </label>
+            <label style="flex: 1; text-align: center; padding: 16px; border: 2px solid {{ '#2563eb' if current_theme == 'dark' else '#e2e8f0' }}; border-radius: 10px; cursor: pointer;">
+                <input type="radio" name="theme" value="dark" {{ 'checked' if current_theme == 'dark' else '' }} style="display: none;">
+                <i class="fa-solid fa-moon" style="font-size: 1.3rem; color: #6366f1;"></i>
+                <p style="font-size: 0.8rem; margin-top: 6px; font-weight: 600;">{{ t('sa_dark') }}</p>
+            </label>
+        </div>
+        <p style="font-size: 0.72rem; color: #94a3b8; margin-top: -12px; margin-bottom: 20px;">{{ t('sa_note') }}</p>
+
+        <button type="submit" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">
+            {{ t('save') }}
+        </button>
+    </form>
+</div>
+{% endblock %}
